@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "fWnKlIp13powTgNHwILCDuBWbbCjRInOgaRhRcSykvI=",
+  "Source": "crudWithAzure",
+  "BasePath": "_content/crudWithAzure",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}
