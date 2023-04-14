@@ -10,6 +10,7 @@ namespace UplodeFile
 {
     public class FileData: ITableEntity
     {
+        public int UserId { get; set; }
         public string FileExtension { get; set; }
         public string FileName { get; set; }
         public DateTime FileCreated { get; set; }

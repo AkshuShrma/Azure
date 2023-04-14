@@ -3,13 +3,10 @@ using Azure.Data.Tables;
 
 namespace crudWithAzure.models
 {
-    public class FileData:ITableEntity
+    public class User:ITableEntity
     {
-        public string Id { get; set; }
-        public string FileExtension { get; set; }
-        public string FileName { get; set; } 
-        public DateTime FileCreated { get; set; }
-        public int UserId { get; set; }
+        public string? UserName { get; set; }
+        public string? Password { get; set; }
         public string PartitionKey { get; set; }
         public string RowKey { get; set; }
         public DateTimeOffset? Timestamp { get; set; }

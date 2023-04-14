@@ -10,6 +10,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddScoped<ITableStorageService<FileData>, TableStorageService<FileData>>();
+builder.Services.AddScoped<IAuthenticateUser, Authenticate>();
 
 // adding cors policy
 builder.Services.AddCors(options =>
@@ -30,9 +31,9 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.MapGet("/getAllData", async (ITableStorageService<FileData> service) =>
+app.MapGet("/getAllData/{id}", async (int id, ITableStorageService<FileData> tableStorageRepository) =>
 {
-    return Results.Ok(await service.GetAllEntityAsync());
+    return Results.Ok(await tableStorageRepository.GetAllEntityAsync(id));
 });
 
 app.MapGet("/getentityasync", async (string fileName, string id, ITableStorageService<FileData> service) =>
@@ -47,6 +48,7 @@ app.MapPost("/upsertentityasync", async (FileData entity, ITableStorageService<F
     string Id = Guid.NewGuid().ToString();
     entity.Id = Id;
     entity.RowKey = Id;
+    entity.UserId = 2;
     var createdEntity = await service.UpsertEntityAsync(entity);
     return createdEntity;
 })
@@ -61,12 +63,23 @@ app.MapPut("/updateentityasync", async (FileData entity, ITableStorageService<Fi
 })
     .WithName("UpdateData");
 
-app.MapDelete("/deleteentityasync", async (string fileName, string id, ITableStorageService<FileData> service) =>
+app.MapDelete("/Delete", async (string name, string id, string extension, ITableStorageService<FileData> tableStorageRepository) =>
 {
-    await service.DeleteEntityAsync(fileName, id);
-    return Results.NoContent();
+    var getMessage = await tableStorageRepository.DeleteEntityAsync(name, id,extension);
+    if (getMessage) return Results.Ok(new { Staus = 1, Message = "Deleted Successfully" });
+    return Results.BadRequest(new { Staus = 0, Message = "Somehting went wrong" });
+
 })
     .WithName("DeleteData");
+
+// login user here 
+app.MapGet("/login/{userName}/{password}", (string userName, string password, IAuthenticateUser iautenticateRepository) =>
+{
+    var data = iautenticateRepository.authenticateUser(userName, password);
+    if (data != null) return Results.Ok(new { Status = 1, Message = "login successfully", data = new { userName = data.UserName, Id = data.RowKey } });
+    return Results.BadRequest(new { Status = 0, Message = "login unsuccessfully" });
+});
+
 
 var summaries = new[]
 {

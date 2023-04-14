@@ -11,7 +11,7 @@ using Azure.Storage.Blobs;
 using Azure;
 using Azure.Storage.Queues;
 using System.Text;
-
+using Microsoft.Azure.Documents;
 
 namespace UplodeFile
 {
@@ -22,8 +22,10 @@ namespace UplodeFile
         //-------------------------------------------------
         [FunctionName("FileUplode")]
         public static async Task<IActionResult> Run(
-            [HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = null)] HttpRequest req, ILogger log)
+            [HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = null)] HttpRequest req, ILogger log  )
         {
+            req.Headers.TryGetValue("userId", out var userId);
+            int id = Convert.ToInt32(userId);
             string Connection = Environment.GetEnvironmentVariable("AzureWebJobsStorage");
             string containerName = Environment.GetEnvironmentVariable("ContainerName");
             BlobServiceClient blobServiceClient = new BlobServiceClient(Connection);
@@ -46,7 +48,7 @@ namespace UplodeFile
                 throw;
             }
             //Create Queue
-            var SendToQueue = CreateQueue(file.FileName, Connection, Environment.GetEnvironmentVariable("queuename"));
+            var SendToQueue = CreateQueue(id,file.FileName , Connection, Environment.GetEnvironmentVariable("queuename"));
 
             if (SendToQueue == null)
             {
@@ -79,7 +81,7 @@ namespace UplodeFile
             return null;
         }
         // Create the messagequeue
-        private static async Task<bool> CreateQueue(string fileDetail,string Connection, string queueName)
+        private static async Task<bool> CreateQueue(int id,string fileDetail,string Connection, string queueName)
         {
             // here we will split the string in two parts.
             string[] strname = fileDetail.Split('.');
@@ -89,7 +91,8 @@ namespace UplodeFile
             {
                 FileExtension = strname[1],
                 FileName = strname[0],
-                FileCreated = DateTime.Now.ToUniversalTime()
+                FileCreated = DateTime.Now.ToUniversalTime(),
+                UserId= id,
             };
 
             QueueServiceClient queueServiceClient= new QueueServiceClient(Connection);

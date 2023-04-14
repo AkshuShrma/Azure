@@ -1,11 +1,13 @@
 {
   "version": 2,
-  "dgSpecHash": "VhCkJpziK57LuH+NdDMHlUg04harbOiTgrvih7n+lqQKDLp5NXI3z3+qnGMsZ7Ee2YU/OOQTCVo4FyEIw1RBoQ==",
+  "dgSpecHash": "PKjBji6XbkYB24ukoDlH6gR1umHbj2S3Pp5hYry3SfP4bUsX9Zyyv4odrtRwiO2j3emiUsEy4nCt234RB6VzeA==",
   "success": true,
   "projectFilePath": "D:\\Ak\\crudWithAzure\\crudWithAzure\\crudWithAzure.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\DOTNET\\.nuget\\packages\\azure.core\\1.27.0\\azure.core.1.27.0.nupkg.sha512",
+    "C:\\Users\\DOTNET\\.nuget\\packages\\azure.core\\1.31.0\\azure.core.1.31.0.nupkg.sha512",
     "C:\\Users\\DOTNET\\.nuget\\packages\\azure.data.tables\\12.8.0\\azure.data.tables.12.8.0.nupkg.sha512",
+    "C:\\Users\\DOTNET\\.nuget\\packages\\azure.storage.blobs\\12.16.0\\azure.storage.blobs.12.16.0.nupkg.sha512",
+    "C:\\Users\\DOTNET\\.nuget\\packages\\azure.storage.common\\12.15.0\\azure.storage.common.12.15.0.nupkg.sha512",
     "C:\\Users\\DOTNET\\.nuget\\packages\\microsoft.bcl.asyncinterfaces\\1.1.1\\microsoft.bcl.asyncinterfaces.1.1.1.nupkg.sha512",
     "C:\\Users\\DOTNET\\.nuget\\packages\\microsoft.extensions.apidescription.server\\3.0.0\\microsoft.extensions.apidescription.server.3.0.0.nupkg.sha512",
     "C:\\Users\\DOTNET\\.nuget\\packages\\microsoft.openapi\\1.2.3\\microsoft.openapi.1.2.3.nupkg.sha512",
@@ -14,6 +16,7 @@
     "C:\\Users\\DOTNET\\.nuget\\packages\\swashbuckle.aspnetcore.swaggergen\\6.2.3\\swashbuckle.aspnetcore.swaggergen.6.2.3.nupkg.sha512",
     "C:\\Users\\DOTNET\\.nuget\\packages\\swashbuckle.aspnetcore.swaggerui\\6.2.3\\swashbuckle.aspnetcore.swaggerui.6.2.3.nupkg.sha512",
     "C:\\Users\\DOTNET\\.nuget\\packages\\system.diagnostics.diagnosticsource\\4.6.0\\system.diagnostics.diagnosticsource.4.6.0.nupkg.sha512",
+    "C:\\Users\\DOTNET\\.nuget\\packages\\system.io.hashing\\6.0.0\\system.io.hashing.6.0.0.nupkg.sha512",
     "C:\\Users\\DOTNET\\.nuget\\packages\\system.memory.data\\1.0.2\\system.memory.data.1.0.2.nupkg.sha512",
     "C:\\Users\\DOTNET\\.nuget\\packages\\system.numerics.vectors\\4.5.0\\system.numerics.vectors.4.5.0.nupkg.sha512",
     "C:\\Users\\DOTNET\\.nuget\\packages\\system.text.encodings.web\\4.7.2\\system.text.encodings.web.4.7.2.nupkg.sha512",
