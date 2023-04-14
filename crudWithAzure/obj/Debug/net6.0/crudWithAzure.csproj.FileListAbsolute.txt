@@ -40,3 +40,5 @@ D:\Ak\crudWithAzure\crudWithAzure\obj\Debug\net6.0\ref\crudWithAzure.dll
 D:\Ak\crudWithAzure\crudWithAzure\bin\Debug\net6.0\Azure.Storage.Blobs.dll
 D:\Ak\crudWithAzure\crudWithAzure\bin\Debug\net6.0\Azure.Storage.Common.dll
 D:\Ak\crudWithAzure\crudWithAzure\bin\Debug\net6.0\System.IO.Hashing.dll
+D:\Ak\crudWithAzure\crudWithAzure\bin\Debug\net6.0\Newtonsoft.Json.dll
+D:\Ak\crudWithAzure\crudWithAzure\bin\Debug\net6.0\System.Net.WebSockets.WebSocketProtocol.dll

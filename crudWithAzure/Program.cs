@@ -1,4 +1,5 @@
 using crudWithAzure.Data;
+using crudWithAzure.Hub;
 using crudWithAzure.models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -12,6 +13,9 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<ITableStorageService<FileData>, TableStorageService<FileData>>();
 builder.Services.AddScoped<IAuthenticateUser, Authenticate>();
 
+//adding signalR
+builder.Services.AddSignalR();
+
 // adding cors policy
 builder.Services.AddCors(options =>
 {
@@ -22,7 +26,12 @@ builder.Services.AddCors(options =>
 });
 
 var app = builder.Build();
+app.UseRouting();
+app.UseAuthorization();
 
+// Endpoint for signalR
+app.MapHub<MessageHub>("/getDataBySignalR");
+app.UseHttpsRedirection();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -30,6 +39,10 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+
+
+// Get All Data
 
 app.MapGet("/getAllData/{id}", async (int id, ITableStorageService<FileData> tableStorageRepository) =>
 {
@@ -48,7 +61,6 @@ app.MapPost("/upsertentityasync", async (FileData entity, ITableStorageService<F
     string Id = Guid.NewGuid().ToString();
     entity.Id = Id;
     entity.RowKey = Id;
-    entity.UserId = 2;
     var createdEntity = await service.UpsertEntityAsync(entity);
     return createdEntity;
 })
@@ -58,8 +70,9 @@ app.MapPut("/updateentityasync", async (FileData entity, ITableStorageService<Fi
 {
     entity.PartitionKey = entity.FileName;
     entity.RowKey = entity.Id;
+    entity.UserId = entity.UserId;
     await service.UpsertEntityAsync(entity);
-    return Results.NoContent();
+    return Results.Ok("Updated");
 })
     .WithName("UpdateData");
 

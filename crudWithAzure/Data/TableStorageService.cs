@@ -1,6 +1,8 @@
 ﻿using Azure.Data.Tables;
 using Azure.Storage.Blobs;
+using crudWithAzure.Hub;
 using crudWithAzure.models;
+using Microsoft.AspNetCore.SignalR;
 using System.Collections.Concurrent;
 
 namespace crudWithAzure.Data
@@ -9,8 +11,10 @@ namespace crudWithAzure.Data
     {
         private const string TableName = "Item";
         private readonly IConfiguration _configuration;
-        public TableStorageService(IConfiguration configuration)
+        private IHubContext<MessageHub, IMessageHubClient> messageHub;
+        public TableStorageService(IHubContext<MessageHub, IMessageHubClient> _messageHub, IConfiguration configuration)
         {
+            messageHub = _messageHub;
             _configuration = configuration;
         }
 
@@ -78,6 +82,7 @@ namespace crudWithAzure.Data
         {
             var tableClient = await GetTableClient();
             await tableClient.UpsertEntityAsync(entity);
+            await messageHub.Clients.All.SendOffersToUser(entity);
             return entity;
         }
          static class BlobExtensions
