@@ -14,5 +14,6 @@ namespace crudWithAzure.models
         public string RowKey { get; set; }
         public DateTimeOffset? Timestamp { get; set; }
         public ETag ETag { get; set; }
+        
     }
 }

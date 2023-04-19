@@ -13,7 +13,9 @@ namespace QueueTrigger
         public void Run([QueueTrigger("queue", Connection = "AzureWebJobsStorage")]string myQueueItem, ILogger log)
         {
             var data = myQueueItem;
+            // Deserialize Data here
             var finalData = JsonConvert.DeserializeObject<FileData>(myQueueItem);
+            // send data to the table
             sendDataToTable(finalData);
         }
 

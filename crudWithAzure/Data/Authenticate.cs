@@ -12,6 +12,7 @@ namespace crudWithAzure.Data
             _configuration = configuration;
         }
 
+        // Create table here
         private async Task<TableClient> GetTableClient()
         {
             var serviceClient = new TableServiceClient(_configuration["StorageConnectionString"]);
@@ -19,6 +20,8 @@ namespace crudWithAzure.Data
             await tableClient.CreateIfNotExistsAsync();
             return tableClient;
         }
+
+        // login user code
         public User? authenticateUser(string userName, string password)
         {
             try

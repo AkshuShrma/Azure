@@ -1,4 +1,6 @@
-﻿using crudWithAzure.models;
+﻿using crudWithAzure.Hubs;
+using crudWithAzure.models;
+using Microsoft.AspNetCore.SignalR;
 
 namespace crudWithAzure.Data
 {

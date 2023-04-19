@@ -1,7 +1,10 @@
+using Azure.Data.Tables;
 using crudWithAzure.Data;
-using crudWithAzure.Hub;
+
+using crudWithAzure.Hubs;
 using crudWithAzure.models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,9 +12,12 @@ var builder = WebApplication.CreateBuilder(args);
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+//builder.Services.AddSingleton(c => new TableServiceClient(Environment.GetEnvironmentVariable("table")));
 
+// Add services
 builder.Services.AddScoped<ITableStorageService<FileData>, TableStorageService<FileData>>();
 builder.Services.AddScoped<IAuthenticateUser, Authenticate>();
+
 
 //adding signalR
 builder.Services.AddSignalR();
@@ -27,6 +33,7 @@ builder.Services.AddCors(options =>
 
 var app = builder.Build();
 app.UseRouting();
+app.UseCors("My");
 app.UseAuthorization();
 
 // Endpoint for signalR
@@ -49,12 +56,13 @@ app.MapGet("/getAllData/{id}", async (int id, ITableStorageService<FileData> tab
     return Results.Ok(await tableStorageRepository.GetAllEntityAsync(id));
 });
 
-app.MapGet("/getentityasync", async (string fileName, string id, ITableStorageService<FileData> service) =>
+// get single user here 
+app.MapGet("/getentityasync/{fileName}/{id}", async (string fileName, string id, ITableStorageService<FileData> service) =>
 {
     return Results.Ok(await service.GetEntityAsync(fileName, id));
-})
-    .WithName("GetData");
+});
 
+// add user here 
 app.MapPost("/upsertentityasync", async (FileData entity, ITableStorageService<FileData> service) =>
 {
     entity.PartitionKey = entity.FileName;
@@ -63,27 +71,26 @@ app.MapPost("/upsertentityasync", async (FileData entity, ITableStorageService<F
     entity.RowKey = Id;
     var createdEntity = await service.UpsertEntityAsync(entity);
     return createdEntity;
-})
-    .WithName("PostData");
+});
 
+// update user here 
 app.MapPut("/updateentityasync", async (FileData entity, ITableStorageService<FileData> service) =>
 {
-    entity.PartitionKey = entity.FileName;
+    entity.PartitionKey = entity.PartitionKey;
     entity.RowKey = entity.Id;
     entity.UserId = entity.UserId;
     await service.UpsertEntityAsync(entity);
     return Results.Ok("Updated");
-})
-    .WithName("UpdateData");
+});
 
-app.MapDelete("/Delete", async (string name, string id, string extension, ITableStorageService<FileData> tableStorageRepository) =>
+// Delete user here 
+app.MapDelete("/Delete/{name}/{id}/{extension}", async (string name, string id, string extension, ITableStorageService<FileData> tableStorageRepository) =>
 {
-    var getMessage = await tableStorageRepository.DeleteEntityAsync(name, id,extension);
+    var getMessage = await tableStorageRepository.DeleteEntityAsync(name, id, extension);
     if (getMessage) return Results.Ok(new { Staus = 1, Message = "Deleted Successfully" });
     return Results.BadRequest(new { Staus = 0, Message = "Somehting went wrong" });
 
-})
-    .WithName("DeleteData");
+});
 
 // login user here 
 app.MapGet("/login/{userName}/{password}", (string userName, string password, IAuthenticateUser iautenticateRepository) =>
@@ -93,34 +100,6 @@ app.MapGet("/login/{userName}/{password}", (string userName, string password, IA
     return Results.BadRequest(new { Status = 0, Message = "login unsuccessfully" });
 });
 
-
-var summaries = new[]
-{
-    "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-};
-
-app.MapGet("/weatherforecast", () =>
-{
-    var forecast = Enumerable.Range(1, 5).Select(index =>
-        new WeatherForecast
-        (
-            DateTime.Now.AddDays(index),
-            Random.Shared.Next(-20, 55),
-            summaries[Random.Shared.Next(summaries.Length)]
-        ))
-        .ToArray();
-    return forecast;
-})
-.WithName("GetWeatherForecast");
-
-
-
-app.UseCors("My");
-
-
 app.Run();
 
-internal record WeatherForecast(DateTime Date, int TemperatureC, string? Summary)
-{
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
-}
+public partial class Program { }
