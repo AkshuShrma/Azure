@@ -147,6 +147,10 @@
               "target": "Package",
               "version": "[2.4.3, )"
             },
+            "Microsoft.Azure.Storage.Blob": {
+              "target": "Package",
+              "version": "[11.2.3, )"
+            },
             "Swashbuckle.AspNetCore": {
               "target": "Package",
               "version": "[6.2.3, )"

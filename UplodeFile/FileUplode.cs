@@ -11,7 +11,6 @@ using Azure.Storage.Blobs;
 using Azure;
 using Azure.Storage.Queues;
 using System.Text;
-using Microsoft.Azure.Documents;
 
 namespace UplodeFile
 {

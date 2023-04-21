@@ -5,6 +5,7 @@ using crudWithAzure.Hubs;
 using crudWithAzure.models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
+using System.Text.RegularExpressions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -51,6 +52,8 @@ if (app.Environment.IsDevelopment())
 
 // Get All Data
 
+
+
 app.MapGet("/getAllData/{id}", async (int id, ITableStorageService<FileData> tableStorageRepository) =>
 {
     return Results.Ok(await tableStorageRepository.GetAllEntityAsync(id));
@@ -69,7 +72,7 @@ app.MapPost("/upsertentityasync", async (FileData entity, ITableStorageService<F
     string Id = Guid.NewGuid().ToString();
     entity.Id = Id;
     entity.RowKey = Id;
-    var createdEntity = await service.UpsertEntityAsync(entity);
+    var createdEntity = await service.CreateRecord(entity);
     return createdEntity;
 });
 
@@ -84,9 +87,9 @@ app.MapPut("/updateentityasync", async (FileData entity, ITableStorageService<Fi
 });
 
 // Delete user here 
-app.MapDelete("/Delete/{name}/{id}/{extension}", async (string name, string id, string extension, ITableStorageService<FileData> tableStorageRepository) =>
+app.MapDelete("/Delete/{name}/{id}/{extension}/{partitionKey}", async (string name, string id, string extension,string partitionKey, ITableStorageService<FileData> tableStorageRepository) =>
 {
-    var getMessage = await tableStorageRepository.DeleteEntityAsync(name, id, extension);
+    var getMessage = await tableStorageRepository.DeleteEntityAsync(name, id, extension, partitionKey);
     if (getMessage) return Results.Ok(new { Staus = 1, Message = "Deleted Successfully" });
     return Results.BadRequest(new { Staus = 0, Message = "Somehting went wrong" });
 

@@ -9,6 +9,7 @@ namespace crudWithAzure.Data
         public Task<ICollection<T>> GetAllEntityAsync(int id);
         Task<FileData> GetEntityAsync(string fileName, string id);
         Task<FileData> UpsertEntityAsync(FileData entity);
-        Task<bool> DeleteEntityAsync(string name, string id, string extension);
+        Task<FileData> CreateRecord(FileData entity);
+        Task<bool> DeleteEntityAsync(string name, string id, string extension, string partitionKey);
     }
 }

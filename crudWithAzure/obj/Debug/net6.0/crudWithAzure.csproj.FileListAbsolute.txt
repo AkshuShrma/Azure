@@ -45,3 +45,6 @@ D:\Ak\crudWithAzure\crudWithAzure\bin\Debug\net6.0\Microsoft.AspNet.SignalR.Core
 D:\Ak\crudWithAzure\crudWithAzure\bin\Debug\net6.0\Microsoft.Owin.dll
 D:\Ak\crudWithAzure\crudWithAzure\bin\Debug\net6.0\Microsoft.Owin.Security.dll
 D:\Ak\crudWithAzure\crudWithAzure\bin\Debug\net6.0\Owin.dll
+D:\Ak\crudWithAzure\crudWithAzure\bin\Debug\net6.0\Microsoft.Azure.KeyVault.Core.dll
+D:\Ak\crudWithAzure\crudWithAzure\bin\Debug\net6.0\Microsoft.Azure.Storage.Blob.dll
+D:\Ak\crudWithAzure\crudWithAzure\bin\Debug\net6.0\Microsoft.Azure.Storage.Common.dll
