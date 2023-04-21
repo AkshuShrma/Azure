@@ -15,6 +15,7 @@ namespace crudWithAzure.Data
 {
     public class TableStorageService<T>:ITableStorageService<FileData>
     {
+        //
         private const string TableName = "Item";
         private readonly IConfiguration _configuration;
         private IHubContext<MessageHub,IMessageHubClient> messageHub;
@@ -137,9 +138,6 @@ namespace crudWithAzure.Data
             // update the partition key so that new file record created on table .
             entity.PartitionKey = entity.FileName;
 
-
-
-
             //here we are update the data from azure table
             await tableClient.UpsertEntityAsync(entity);
             //***********************************
@@ -149,15 +147,6 @@ namespace crudWithAzure.Data
                 await objNotifHub.SignalR(getData, messageHub);
             return entity;
         }
-
-        //var tableClient = await GetTableClient();
-        //await tableClient.UpsertEntityAsync(entity);
-        //var getData = await GetAllEntityAsync(entity.UserId);
-        //// SignalR
-        //var objNotifHub = new MessageHub();
-        //await objNotifHub.SignalR(getData, messageHub);
-        //return entity;
-
 
         /// <summary>
         /// ////////////////////////////

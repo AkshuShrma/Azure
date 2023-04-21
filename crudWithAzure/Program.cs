@@ -83,14 +83,14 @@ app.MapPut("/updateentityasync", async (FileData entity, ITableStorageService<Fi
     entity.RowKey = entity.Id;
     entity.UserId = entity.UserId;
     await service.UpsertEntityAsync(entity);
-    return Results.Ok("Updated");
+    return Results.Ok("Data Updated");
 });
 
 // Delete user here 
 app.MapDelete("/Delete/{name}/{id}/{extension}/{partitionKey}", async (string name, string id, string extension,string partitionKey, ITableStorageService<FileData> tableStorageRepository) =>
 {
     var getMessage = await tableStorageRepository.DeleteEntityAsync(name, id, extension, partitionKey);
-    if (getMessage) return Results.Ok(new { Staus = 1, Message = "Deleted Successfully" });
+    if (getMessage) return Results.Ok("Data Deleted");
     return Results.BadRequest(new { Staus = 0, Message = "Somehting went wrong" });
 
 });
