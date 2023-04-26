@@ -1,8 +1,5 @@
 D:\Ak\crudWithAzure\crudWithAzure\bin\Debug\net6.0\appsettings.Development.json
 D:\Ak\crudWithAzure\crudWithAzure\bin\Debug\net6.0\appsettings.json
-D:\Ak\crudWithAzure\crudWithAzure\bin\Debug\net6.0\uplodefile\package-lock.json
-D:\Ak\crudWithAzure\crudWithAzure\bin\Debug\net6.0\uplodefile\package.json
-D:\Ak\crudWithAzure\crudWithAzure\bin\Debug\net6.0\uplodefile\public\manifest.json
 D:\Ak\crudWithAzure\crudWithAzure\bin\Debug\net6.0\crudWithAzure.exe
 D:\Ak\crudWithAzure\crudWithAzure\bin\Debug\net6.0\crudWithAzure.deps.json
 D:\Ak\crudWithAzure\crudWithAzure\bin\Debug\net6.0\crudWithAzure.runtimeconfig.json

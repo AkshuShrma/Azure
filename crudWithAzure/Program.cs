@@ -100,7 +100,7 @@ app.MapGet("/login/{userName}/{password}", (string userName, string password, IA
 {
     var data = iautenticateRepository.authenticateUser(userName, password);
     if (data != null) return Results.Ok(new { Status = 1, Message = "login successfully", data = new { userName = data.UserName, Id = data.RowKey } });
-    return Results.BadRequest(new { Status = 0, Message = "login unsuccessfully" });
+    return Results.BadRequest("login failed");
 });
 
 app.Run();

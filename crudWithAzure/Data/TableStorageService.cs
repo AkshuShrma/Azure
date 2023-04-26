@@ -71,6 +71,8 @@ namespace crudWithAzure.Data
         {
             var tableClient = await GetTableClient();
             //here delete data from the azure table
+            var data = await GetEntityAsync(name, id);
+            if(data == null) return false;
             var removeData = tableClient.DeleteEntity(name, id);
             if (removeData.Status == 204)
             {

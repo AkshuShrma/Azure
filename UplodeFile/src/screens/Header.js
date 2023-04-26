@@ -20,7 +20,7 @@ function Header() {
 
   return (
     <div>
-    <nav className="navbar navbar-expand-lg navbar-light bg-warning">
+    <nav className="navbar navbar-expand-lg navbar-light bg-info">
     <button
       className="navbar-toggler"
       type="button"
@@ -46,7 +46,7 @@ function Header() {
         ) : (
           <Link
             to="/register"
-            className="btn btn-outline-success my-2 my-sm-0 m-1"
+            className="btn btn-outline-dark my-2 my-sm-0 m-1"
           >
             Register
           </Link>
@@ -54,14 +54,14 @@ function Header() {
         {user ? (
           <a
             onClick={logOutClick}
-            className="btn btn-outline-success my-2 my-sm-0 m-1"
+            className="btn btn-outline-dark my-2 my-sm-0 m-1"
           >
             LogOut
           </a>
         ) : (
           <Link
             to="/login"
-            className="btn btn-outline-success my-2 my-sm-0 m-1"
+            className="btn btn-outline-dark my-2 my-sm-0 m-1"
           >
             Login
           </Link>

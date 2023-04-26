@@ -2,6 +2,8 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import React, { useState } from "react";
 import Header from "./Header";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function Login() {
   const initData = {
@@ -29,19 +31,19 @@ function Login() {
     else {
       setLoginFormError(initData);
       axios
-        .get(`http://localhost:5287/login/${loginForm.UserName}/${loginForm.Password}`)
+        .get(
+          `http://localhost:5287/login/${loginForm.UserName}/${loginForm.Password}`
+        )
         .then((d) => {
-          if (d.data) {
+          toast.success(d.data.message);
+          setLoginForm(initData);
+          setTimeout(() => {
             localStorage.setItem("currentUser", JSON.stringify(d.data));
-            alert("User LogIn Successfully");
             navigate("/fileuplodesingle");
-          } else {
-            alert("Enter Valid Username/Password");
-            setLoginForm(initData);
-          }
+          }, 1000);
         })
         .catch((e) => {
-         alert("Enter Valid Username/Password");
+          toast.dark("Something went wrong");
           setLoginForm(initData);
         });
     }
@@ -49,13 +51,14 @@ function Login() {
 
   return (
     <div>
-      <Header/>
+      <ToastContainer />
+      <Header />
       <div className="row col-lg-6 mx-auto m-2 p-2">
         <div className="card text-center">
           <div className="card-header text-success">Login</div>
           <div className="card-body">
             <div className="form-group row">
-              <label className="col-lg-4" for="txtusername">
+              <label className="col-lg-4" htmlFor="txtusername">
                 Username
               </label>
               <div className="col-lg-8">
@@ -71,7 +74,7 @@ function Login() {
               </div>
             </div>
             <div className="form-group row">
-              <label className="col-lg-4" for="txtpassword">
+              <label className="col-lg-4" htmlFor="txtpassword">
                 Password
               </label>
               <div className="col-lg-8">

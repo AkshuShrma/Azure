@@ -1,9 +1,10 @@
-import axios, { formToJSON } from "axios";
+import axios from "axios";
 import { useEffect, useState } from "react";
 import * as signalR from "@microsoft/signalr";
 import Header from "./Header";
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import swal from 'sweetalert';
 
 function FileUploadSingle() {
   const [hubConnection, setHubConnection] = useState("");
@@ -63,7 +64,7 @@ function FileUploadSingle() {
         setData(result.data);
       })
       .catch((err) => {
-        console.log(err);
+        toast.dark(err);
       });
   };
 
@@ -80,8 +81,9 @@ function FileUploadSingle() {
       .get("http://localhost:7000/api/DownloadImage/" + file, {
         responseType: "blob",
       })
-      .then((response) => {
-        const url = URL.createObjectURL(new Blob([response.data]));
+      .then((result) => {
+        swal("File Downloded Successfully",{icon:"success"});
+        const url = URL.createObjectURL(new Blob([result.data]));
         const link = document.createElement("a");
         link.href = url;
         link.setAttribute("download", file);
@@ -90,7 +92,7 @@ function FileUploadSingle() {
         getData();
       })
       .catch((error) => {
-        console.log(error);
+        toast.dark(error);
       });
   }
 
@@ -107,7 +109,7 @@ function FileUploadSingle() {
         headers: header,
       })
       .then((result) => {
-        toast.success(result.data);
+        swal(result.data,{icon:"success"});
       })
       .catch((error) => {
         toast.dark(error);
@@ -140,7 +142,7 @@ function FileUploadSingle() {
     axios
       .put(uRl, data)
       .then((result) => {
-        toast.success(result.data);
+        swal(result.data,{icon:"success"});
       })
       .catch((error) => {
         toast.dark(error);
@@ -162,8 +164,8 @@ function FileUploadSingle() {
     axios
       .delete(url, data)
       .then((result) => {
-        toast.success(result.data);
-        getData();
+        swal(result.data,{icon:"success"});
+         getData();
       })
       .catch((error) => {
         toast.dark(error);
@@ -172,19 +174,32 @@ function FileUploadSingle() {
 
   return (
     <div>
-      <ToastContainer/>
+      <ToastContainer />
       <Header />
       <hr />
       {/* <div>
       <label class="form-label" for="customFile">Default file input example</label>
        <input type="file" class="text-info" />
       </div> */}
-      <div className=" col-sm-3 m-4 p-8 justify">
-      <div className="form-group row">
-      <h2 className="text-primary">Uplode Image</h2>
-        <input type="file" className="form-control" onChange={handleFileChange} />
-      </div>
-      <button className="btn btn-info float-start" onClick={handleUploadClick}>Upload</button>
+       <h2 className="text-primary text-center">Uplode Image</h2>
+       <hr/>
+      <div className=" col-4 offset-4">
+        <div className="form-group row">
+          <div className="col-8">
+            <input
+              type="file"
+              className="form-control"
+              onChange={handleFileChange}
+            />
+          </div>
+          <button
+          className="btn btn-info float-start"
+          onClick={handleUploadClick}
+        >
+          Upload
+        </button>
+        </div>
+        
       </div>
       <div className="row">
         <div className="col-8 text-left m-2">
@@ -211,14 +226,16 @@ function FileUploadSingle() {
                     <td>{item.fileName}</td>
                     <td>{item.fileExtension}</td>
                     <td>{item.fileCreated}</td>
-                    <button
-                      className="btn btn-danger"
-                      onClick={() => {
-                        handleDownload(item);
-                      }}
-                    >
-                      Download
-                    </button>
+                    <td>
+                      <button
+                        className="btn btn-danger"
+                        onClick={() => {
+                          handleDownload(item);
+                        }}
+                      >
+                        Download
+                      </button>
+                    </td>
                     <td>
                       <button
                         className="btn btn-info float-start"
@@ -247,8 +264,10 @@ function FileUploadSingle() {
                 );
               })
             ) : (
-              <h2 className="text-info">"Loading..."</h2>
-            )}{" "}
+              <tr>
+                <td className="text-info">"Loading..."</td>
+              </tr>
+            )}
           </tbody>
         </table>
       </div>
